@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 h-screen">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-indigo-800 text-white w-64 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-30">
+      <div class="flex items-center justify-between px-4 py-6 border-b border-indigo-700">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="layout-dashboard" class="w-7 h-7"></i>
+          <span class="text-xl font-semibold">AdminPanel</span>
+        </div>
+        <button id="closeSidebar" class="p-1 rounded-md hover:bg-indigo-700 md:hidden">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <nav class="mt-5 px-2">
+        <a href="#" class="nav-link active" data-section="dashboard">
+          <i data-lucide="home" class="w-5 h-5 mr-3"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" data-section="users">
+          <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+          <span>Users</span>
+        </a>
+        <a href="#" class="nav-link" data-section="products">
+          <i data-lucide="shopping-bag" class="w-5 h-5 mr-3"></i>
+          <span>Products</span>
+        </a>
+        <a href="#" class="nav-link" data-section="settings">
+          <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 md:ml-64 relative">
+      <!-- Top Navigation -->
+      <header class="bg-white shadow-sm z-20 relative">
+        <div class="flex items-center justify-between px-4 py-3">
+          <button id="openSidebar" class="p-1 rounded-md hover:bg-gray-100 md:hidden">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <button class="p-1 rounded-full hover:bg-gray-100 relative">
+                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                <i data-lucide="bell" class="w-6 h-6"></i>
+              </button>
+            </div>
+            <div class="flex items-center space-x-2">
+              <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Profile" class="w-8 h-8 rounded-full">
+              <span class="text-sm font-medium hidden sm:inline-block">John Doe</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Sections -->
+      <main class="p-4">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+          <h1 class="text-2xl font-semibold mb-6">Dashboard Overview</h1>
+          
+          <!-- Stat Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow p-4 flex items-center">
+              <div class="rounded-full bg-blue-100 p-3 mr-4">
+                <i data-lucide="users" class="w-6 h-6 text-blue-600"></i>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">New Users</p>
+                <p class="text-2xl font-semibold">142</p>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4 flex items-center">
+              <div class="rounded-full bg-green-100 p-3 mr-4">
+                <i data-lucide="shopping-cart" class="w-6 h-6 text-green-600"></i>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Total Orders</p>
+                <p class="text-2xl font-semibold">857</p>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4 flex items-center">
+              <div class="rounded-full bg-purple-100 p-3 mr-4">
+                <i data-lucide="package" class="w-6 h-6 text-purple-600"></i>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Products Sold</p>
+                <p class="text-2xl font-semibold">1,249</p>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4 flex items-center">
+              <div class="rounded-full bg-yellow-100 p-3 mr-4">
+                <i data-lucide="dollar-sign" class="w-6 h-6 text-yellow-600"></i>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Revenue This Month</p>
+                <p class="text-2xl font-semibold">$35,248</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Users Table -->
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 class="text-lg font-medium">Recent Users</h2>
+              <span class="text-sm text-gray-500" id="dashboard-pagination-info">Showing 1-4 of 8 entries</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="dashboard-table-body">
+                  <!-- Table content will be populated by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+              <button id="dashboard-prev-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Previous</button>
+              <div id="dashboard-pagination" class="flex space-x-1">
+                <!-- Pagination will be generated by JS -->
+              </div>
+              <button id="dashboard-next-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users-section" class="content-section hidden">
+          <h1 class="text-2xl font-semibold mb-6">User Management</h1>
+          
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 class="text-lg font-medium">All Users</h2>
+              <span class="text-sm text-gray-500" id="users-pagination-info">Showing 1-4 of 8 entries</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Login</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="users-table-body">
+                  <!-- Table content will be populated by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+              <button id="users-prev-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Previous</button>
+              <div id="users-pagination" class="flex space-x-1">
+                <!-- Pagination will be generated by JS -->
+              </div>
+              <button id="users-next-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products-section" class="content-section hidden">
+          <h1 class="text-2xl font-semibold mb-6">Product Management</h1>
+          
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 class="text-lg font-medium">All Products</h2>
+              <span class="text-sm text-gray-500" id="products-pagination-info">Showing 1-4 of 8 entries</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="products-table-body">
+                  <!-- Table content will be populated by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+              <button id="products-prev-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Previous</button>
+              <div id="products-pagination" class="flex space-x-1">
+                <!-- Pagination will be generated by JS -->
+              </div>
+              <button id="products-next-btn" class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" class="content-section hidden">
+          <h1 class="text-2xl font-semibold mb-6">System Settings</h1>
+          
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+              <h2 class="text-lg font-medium">Configuration Options</h2>
+            </div>
+            <div class="p-6 space-y-6">
+              <div>
+                <h3 class="text-md font-medium mb-2">General Settings</h3>
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span>System Notifications</span>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span>Email Alerts</span>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span>SMS Notifications</span>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-md font-medium mb-2">Security Settings</h3>
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span>Two-Factor Authentication</span>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span>IP Restriction</span>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Overlay for sidebar on mobile -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/pagination.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-gray-100">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white hidden md:block">
+      <div class="p-4 text-2xl font-bold border-b border-gray-700">Dynamic</div>
+      <nav class="p-4 space-y-2">
+        <button class="w-full text-left hover:bg-gray-700 p-2 rounded" onclick="showSection('dashboard')">
+          <i class="fas fa-chart-line mr-2"></i> Dashboard
+        </button>
+        <button class="w-full text-left hover:bg-gray-700 p-2 rounded" onclick="showSection('section1')">
+          <i class="fas fa-users mr-2"></i> Users
+        </button>
+        <button class="w-full text-left hover:bg-gray-700 p-2 rounded" onclick="showSection('section2')">
+          <i class="fas fa-box mr-2"></i> Products
+        </button>
+        <button class="w-full text-left hover:bg-gray-700 p-2 rounded" onclick="showSection('section3')">
+          <i class="fas fa-cogs mr-2"></i> Settings
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Search and Profile -->
+      <div class="flex justify-between items-center mb-6">
+        <input type="text" placeholder="Search..." class="p-2 border rounded w-full max-w-xs" />
+        <div class="ml-auto flex items-center">
+          <i class="fas fa-bell mr-4"></i>
+          <img src="https://i.pravatar.cc/30" class="rounded-full" />
+        </div>
+      </div>
+
+      <!-- Dashboard Section -->
+      <section id="dashboard">
+        <h2 class="text-xl font-bold mb-4">Dashboard</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-white p-4 rounded shadow text-center">
+            <i class="fas fa-users text-blue-500 text-2xl"></i>
+            <div class="text-xl font-bold">8,267</div>
+            <div>New Users</div>
+          </div>
+          <div class="bg-white p-4 rounded shadow text-center">
+            <i class="fas fa-shopping-cart text-green-500 text-2xl"></i>
+            <div class="text-xl font-bold">200,521</div>
+            <div>Total Orders</div>
+          </div>
+          <div class="bg-white p-4 rounded shadow text-center">
+            <i class="fas fa-box text-pink-500 text-2xl"></i>
+            <div class="text-xl font-bold">215,542</div>
+            <div>Products Sold</div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center mb-6">
+          <i class="fas fa-dollar-sign text-cyan-500 text-2xl"></i>
+          <div class="text-xl font-bold">$677.89</div>
+          <div>This Month</div>
+        </div>
+        <div id="dashboard-list"></div>
+      </section>
+
+      <!-- Other Sections -->
+      <section id="section1" class="hidden">
+        <h2 class="text-xl font-bold mb-4">Users</h2>
+        <div id="section1-list"></div>
+      </section>
+
+      <section id="section2" class="hidden">
+        <h2 class="text-xl font-bold mb-4">Products</h2>
+        <div id="section2-list"></div>
+      </section>
+
+      <section id="section3" class="hidden">
+        <h2 class="text-xl font-bold mb-4">Settings</h2>
+        <div id="section3-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const dummyUsers = [
+      { name: 'John Doe', title: 'Software Engineer', status: 'Active', role: 'Owner' },
+      { name: 'Jane Smith', title: 'Product Manager', status: 'Inactive', role: 'Admin' },
+      { name: 'Sam Brown', title: 'UX Designer', status: 'Active', role: 'Editor' },
+      { name: 'Emily Johnson', title: 'Backend Developer', status: 'Active', role: 'Owner' },
+      { name: 'Michael Liu', title: 'QA Tester', status: 'Inactive', role: 'Viewer' },
+      { name: 'Olivia White', title: 'DevOps Engineer', status: 'Active', role: 'Admin' },
+      { name: 'Robert King', title: 'Frontend Developer', status: 'Active', role: 'Editor' },
+      { name: 'Linda Green', title: 'Scrum Master', status: 'Active', role: 'Admin' },
+    ];
+
+    const PER_PAGE = 4;
+
+    function paginate(array, page) {
+      const start = (page - 1) * PER_PAGE;
+      return array.slice(start, start + PER_PAGE);
+    }
+
+    function renderTable(sectionId, data, page = 1) {
+      const paginated = paginate(data, page);
+      let html = `
+        <table class="w-full text-left border">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2">Name</th>
+              <th class="p-2">Title</th>
+              <th class="p-2">Status</th>
+              <th class="p-2">Role</th>
+              <th class="p-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      paginated.forEach(user => {
+        html += `
+          <tr class="border-t">
+            <td class="p-2">${user.name}</td>
+            <td class="p-2">${user.title}</td>
+            <td class="p-2">${user.status}</td>
+            <td class="p-2">${user.role}</td>
+            <td class="p-2 text-blue-500 cursor-pointer">Edit</td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table><div class="mt-4 space-x-2">`;
+
+      const totalPages = Math.ceil(data.length / PER_PAGE);
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<button onclick="renderTable('${sectionId}', dummyUsers, ${i})" class="px-3 py-1 border rounded ${i === page ? 'bg-gray-300' : ''}">${i}</button>`;
+      }
+      html += `</div>`;
+      document.getElementById(sectionId + '-list').innerHTML = html;
+    }
+
+    function showSection(id) {
+      ['dashboard', 'section1', 'section2', 'section3'].forEach(section => {
+        document.getElementById(section).classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+      renderTable(id, dummyUsers);
+    }
+
+    // Initial load
+    renderTable('dashboard', dummyUsers);
+  </script>
+</body>
+
+</html>
